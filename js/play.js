@@ -59,13 +59,6 @@ var playState = {
         // Player object
         spaceman = new SpaceMan(game.add.sprite(SCREEN_CENTER.X, SCREEN_CENTER.Y, 'spaceman'));
 
-        // Fire button
-        var btnFire = game.add.sprite(SCREEN_CENTER.X, SCREEN_HEIGHT - 32, 'btn_fire');
-        btnFire.anchor.x = 0.5;
-        btnFire.anchor.y = 1;
-        btnFire.inputEnabled = true;
-        btnFire.events.onInputDown.add(this.fire, this);
-
         // Score screen
         scoreScreen = game.add.sprite(SCREEN_CENTER.X, SCREEN_CENTER.Y, 'screen_score');
         scoreScreen.anchor.x = 0.5;
@@ -91,7 +84,7 @@ var playState = {
         btnMainMenu.events.onInputDown.add(this.mainmenu, this);
         scoreScreen.addChild(btnMainMenu);
 
-        startText = game.add.text(SCREEN_CENTER.X, 600, 'PRESS THE BUTTON TO START', { fontSize: '24px', fill: '#fff' });
+        startText = game.add.text(SCREEN_CENTER.X, 600, 'TAP SCREEN TO START', { fontSize: '24px', fill: '#fff' });
         startText.anchor.x = 0.5;
         startText.anchor.y = 0.5;
 
@@ -99,6 +92,10 @@ var playState = {
         comboText.visible = false;
 
         scoreText = game.add.text(100, 16, '0', { fontSize: '36px', fill: '#fff' });
+
+        // Touch the screen to fire
+        game.input.inputEnabled = true;
+        game.input.onTap.add(this.fire, this);
 
         LEVEL.reset();
         SCORE.resetScore();

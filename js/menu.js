@@ -6,7 +6,7 @@ var menuState = {
     lazer : null,
 
     create : function() {
-        this.spaceman = game.add.sprite(150, SCREEN_CENTER.Y, 'title_spaceman');
+        this.spaceman = game.add.sprite(150, SCREEN_CENTER.Y + 50, 'title_spaceman');
         this.spaceman.anchor.x = 0.5;
         this.spaceman.anchor.y = 0.5;
         game.physics.arcade.enable(this.spaceman);
@@ -34,7 +34,7 @@ var menuState = {
                 this.goToPlayMode();
             }
 
-            var velocity = 1600;
+            var velocity = 2000;
             var moveAngle = degToRad(this.spaceman.angle + 180);
             this.spaceman.body.velocity.x = velocity * Math.cos(moveAngle);
             this.spaceman.body.velocity.y = velocity * Math.sin(moveAngle);

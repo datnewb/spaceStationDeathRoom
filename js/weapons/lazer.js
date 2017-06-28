@@ -2,7 +2,7 @@ class Lazer {
     constructor() {
         this.weaponType = WEAPONS.LAZER;
 
-        this.moveSpeed = 300;
+        this.moveSpeed = 200;
         this.fireStay = 1000;
         this.fireCooldown = 2500;
         this.keepRotationWhileFiring = true;

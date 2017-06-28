@@ -9,7 +9,7 @@ class SpaceMan {
         this.sprite.body.bounce.y = 1.0;
         this.sprite.body.collideWorldBounds = true;
         
-        this.spinSpeed = 3;
+        this.spinSpeed = 2;
 
         this.isFiring = false;
         this.canFire = true;

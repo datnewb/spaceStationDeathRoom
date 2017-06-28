@@ -7,6 +7,8 @@ var loadState = {
         game.load.image('start', 'assets/art/start.png');
         game.load.image('black', 'assets/art/black.png');
 
+        game.load.image('background', 'assets/art/background.png');
+        game.load.image('fire', 'assets/art/fire.png');
         game.load.image('spaceman', 'assets/art/spaceman.png');
         game.load.image('lazer', 'assets/art/lazer.png');
         game.load.image('bounds_lr', 'assets/art/bounds_lr.png');
@@ -21,7 +23,7 @@ var loadState = {
     },
 
     create : function() {
-        game.state.start(APPSTATE.MENU);
+        game.state.start(APPSTATE.PLAY);
     }
 
 };

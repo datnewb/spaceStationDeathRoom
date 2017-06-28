@@ -9,7 +9,8 @@ class Shooter {
         this.shootStart = randomInt(LEVEL.shooterRandomStartMin, LEVEL.shooterRandomStartMax);
         this.shootTime = game.time.now + this.shootStart;
 
-        this.shootDirection = SHOOTERINFO[index][2];
+        this.sprite.angle = SHOOTERINFO[index][2];
+        this.shootDirection = this.sprite.angle;
 
         this.takenIndex = index;
         this.shouldFire = false;

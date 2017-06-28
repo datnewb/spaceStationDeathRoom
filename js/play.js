@@ -22,6 +22,8 @@ var playState = {
     comboText           : null,
     comboTextTime       : null,
 
+    canRetry            : false,
+
     create : function() {
         // Bounds
         groupBounds = game.add.group();
@@ -34,12 +36,20 @@ var playState = {
         rightBound.anchor.x = 1;
         rightBound.body.immovable = true;
 
-        var topBound = groupBounds.create(0, -100, 'bounds_tb');
+        var topBound = groupBounds.create(0, -110, 'bounds_tb');
         topBound.body.immovable = true;
 
-        var bottomBound = groupBounds.create(0, SCREEN_HEIGHT, 'bounds_tb');
-        bottomBound.anchor.y = 1;
+        var bottomBound = groupBounds.create(0, SCREEN_HEIGHT - 45, 'bounds_tb');
         bottomBound.body.immovable = true;
+
+        // Background
+        game.add.sprite(0, 0, 'background');
+
+        comboText = game.add.text(100, SCREEN_CENTER.Y + 10, '4x', { fontSize: '48px', fill: '#444' });
+        comboText.visible = false;
+
+        scoreText = game.add.text(SCREEN_WIDTH - 85, SCREEN_CENTER.Y - 3, ' ', { fontSize: '36px', fill: '#444' });
+        scoreText.anchor.x = 1;
 
         // Moving enemies
         groupMovers = game.add.group();
@@ -63,35 +73,15 @@ var playState = {
         scoreScreen = game.add.sprite(SCREEN_CENTER.X, SCREEN_CENTER.Y, 'screen_score');
         scoreScreen.anchor.x = 0.5;
         scoreScreen.anchor.y = 0.5;
-        scoreScreen.visible = false;
+        scoreScreen.scale.y = 0;
 
-        scoreScreenText = game.add.text(0, -105, '0000', { fontSize: '24px', fill: '#fff' });
-        scoreScreenText.anchor.x = 0.5;
+        scoreScreenText = game.add.text(-SCREEN_CENTER.X + 60, -140, '0000', { fontSize: '72px', fill: '#fff' });
         scoreScreenText.anchor.y = 0.5;
         scoreScreen.addChild(scoreScreenText);
 
-        var btnRetry = game.add.sprite(0, 0, 'btn_retry');
-        btnRetry.anchor.x = 0.5;
-        btnRetry.anchor.y = 0.5;
-        btnRetry.inputEnabled = true;
-        btnRetry.events.onInputDown.add(this.retry, this);
-        scoreScreen.addChild(btnRetry);
-
-        var btnMainMenu = game.add.sprite(0, 100, 'btn_mainmenu');
-        btnMainMenu.anchor.x = 0.55;
-        btnMainMenu.anchor.y = 0.5;
-        btnMainMenu.inputEnabled = true;    
-        btnMainMenu.events.onInputDown.add(this.mainmenu, this);
-        scoreScreen.addChild(btnMainMenu);
-
-        startText = game.add.text(SCREEN_CENTER.X, 600, 'TAP SCREEN TO START', { fontSize: '24px', fill: '#fff' });
+        startText = game.add.sprite(SCREEN_CENTER.X, 600, 'fire');
         startText.anchor.x = 0.5;
         startText.anchor.y = 0.5;
-
-        comboText = game.add.text(16, 16, '4x', { fontSize: '44px', fill: '#fff' });
-        comboText.visible = false;
-
-        scoreText = game.add.text(100, 16, '0', { fontSize: '36px', fill: '#fff' });
 
         // Touch the screen to fire
         game.input.inputEnabled = true;
@@ -124,6 +114,8 @@ var playState = {
                     }
                 }
             }
+
+            this.updateComboVisual();
         }
         
 
@@ -149,18 +141,23 @@ var playState = {
                 bullet.body.velocity.y = LEVEL.shooterBulletSpeed * Math.sin(shootDirection);
                 bullet.body.bounce.x = 1.0;
                 bullet.body.bounce.y = 1.0;
+                bullet.anchor.x = 0.5;
+                bullet.anchor.y = 0.5;
 
                 shootersList[i].hasFired();
             }
         }
-
-        this.updateComboVisual();
     },
 
     fire : function() {
         if (!spaceman.sprite.alive) {
+            if (this.canRetry) {
+                this.retry();
+            }
             return;
         }
+
+        game.camera.shake(0.01, 50);
 
         if (!LEVEL.hasStarted) {
             // Start spawning enemies
@@ -184,6 +181,8 @@ var playState = {
         scoreText.text = SCORE.score;
 
         LEVEL.addKills();
+
+        game.camera.shake(0.01 * SCORE.combo, 150);
     },
 
     rayCheckRect : function(origin, rotation, targetRect) {
@@ -290,8 +289,15 @@ var playState = {
     },
 
     showScoreScreen : function() {
+        this.hideComboVisual();
+        this.hideScoreVisual();
+
         scoreScreenText.text = SCORE.score;
-        scoreScreen.visible = true;
+
+        this.canRetry = false;
+        
+        var scoreScreenTween = game.add.tween(scoreScreen.scale).to({ y : 1 }, 100, Phaser.Easing.Cubic.In, true, 2000);
+        scoreScreenTween.onComplete.add(this.allowRetry, this);
     },
 
     showComboVisual : function() {
@@ -317,13 +323,21 @@ var playState = {
         }
     },
 
+    hideScoreVisual : function() {
+        scoreText.visible = false;
+    },
+
     retry : function() {
-        console.log('retry pressed');
-        game.state.start(APPSTATE.PLAY);
+        if (this.canRetry) {
+            game.state.start(APPSTATE.PLAY);
+        }
+    },
+
+    allowRetry : function() {
+        this.canRetry = true;
     },
 
     mainmenu : function() {
-        console.log('main menu pressed');
         game.state.start(APPSTATE.MENU);
     }
 };

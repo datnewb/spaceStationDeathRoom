@@ -33,6 +33,13 @@ class Mover {
                 this.sprite.body.velocity.x = LEVEL.moverSpeed * Math.cos(moveAngle);
                 this.sprite.body.velocity.y = LEVEL.moverSpeed * Math.sin(moveAngle);
 
+                if (this.sprite.body.velocity.x >= 0) {
+                    this.sprite.scale.x = 1;
+                }
+                else {
+                    this.sprite.scale.x = -1;
+                }
+
                 this.moveStop = game.time.now + LEVEL.moverMoveTime;
                 this.isMoving = true;
             }

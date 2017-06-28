@@ -78,7 +78,7 @@ var playState = {
         scoreScreen.addChild(btnRetry);
 
         var btnMainMenu = game.add.sprite(0, 100, 'btn_mainmenu');
-        btnMainMenu.anchor.x = 0.5;
+        btnMainMenu.anchor.x = 0.55;
         btnMainMenu.anchor.y = 0.5;
         btnMainMenu.inputEnabled = true;    
         btnMainMenu.events.onInputDown.add(this.mainmenu, this);

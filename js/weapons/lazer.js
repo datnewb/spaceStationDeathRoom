@@ -2,7 +2,7 @@ class Lazer {
     constructor() {
         this.weaponType = WEAPONS.LAZER;
 
-        this.moveSpeed = 200;
+        this.moveSpeed = 300;
         this.fireStay = 1000;
         this.fireCooldown = 2500;
         this.keepRotationWhileFiring = true;
@@ -12,8 +12,8 @@ class Lazer {
 
     fire(position, rotation) {
         this.sprite = game.add.sprite(position.x, position.y, 'lazer');
-        this.sprite.anchor.x = 0;
-        this.sprite.anchor.y = 0.5;
+        this.sprite.anchor.x = -0.02;
+        this.sprite.anchor.y = 0.35;
 
         this.updatePositionAndRotation(position, rotation);
     }

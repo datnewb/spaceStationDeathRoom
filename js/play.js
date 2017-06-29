@@ -144,6 +144,9 @@ var playState = {
                 bullet.anchor.x = 0.5;
                 bullet.anchor.y = 0.5;
 
+                var shootSfx = game.add.audio('sfx_shooter');
+                shootSfx.play('', 0, 1, false);
+
                 shootersList[i].hasFired();
             }
         }
@@ -231,13 +234,13 @@ var playState = {
         LEVEL.moverNextSpawnTime = game.time.now + LEVEL.moverSpawnInterval;
 
         // spawn shooters
+        var addedShooters = 0;
         if (LEVEL.currentShooterCount < LEVEL.shooterCount) {
             var takenShooters = new Array();
             for (var x = 0; x < shootersList.length; x++) {
                 takenShooters[x] = shootersList[x].takenIndex;
             }
 
-            var addedShooters = 0;
             for (var x = LEVEL.currentShooterCount; x < LEVEL.shooterCount; x++) {
                 var index = -1;
                 while(index < 0 || takenShooters.includes(index)) {
@@ -253,6 +256,11 @@ var playState = {
             }
 
             LEVEL.currentShooterCount += addedShooters;
+        }
+
+        if (addedShooters > 0 || i > 0) {
+            var spawnSfx = game.add.audio('sfx_spawn');
+            spawnSfx.play('', 0, 1, false);
         }
     },
 
@@ -285,7 +293,15 @@ var playState = {
             spaceman.weapon.stopFiring();
         }
 
+        var deathSfx = game.add.audio('sfx_death');
+        deathSfx.play('', 0, 1, false);
+
         this.showScoreScreen();
+    },
+
+    playShowScoreScreenAudio : function() {
+        var scoreScreenSfx = game.add.audio('sfx_score');
+        scoreScreenSfx.play('', 0, 1, false);
     },
 
     showScoreScreen : function() {
@@ -295,9 +311,13 @@ var playState = {
         scoreScreenText.text = SCORE.score;
 
         this.canRetry = false;
+
+        var scoreScreenMusic = game.add.audio('music_score');
+        scoreScreenMusic.play('', 0, 1, true);
         
         var scoreScreenTween = game.add.tween(scoreScreen.scale).to({ y : 1 }, 100, Phaser.Easing.Cubic.In, true, 2000);
         scoreScreenTween.onComplete.add(this.allowRetry, this);
+        scoreScreenTween.onStart.add(this.playShowScoreScreenAudio, this);
     },
 
     showComboVisual : function() {

@@ -4,6 +4,7 @@ var menuState = {
     fireTime : null,
     spaceman : null,
     lazer : null,
+    bgm : null,
 
     create : function() {
         this.spaceman = game.add.sprite(150, SCREEN_CENTER.Y + 50, 'title_spaceman');
@@ -26,6 +27,9 @@ var menuState = {
 
         game.input.inputEnabled = true;
         game.input.onTap.add(this.fire, this);
+
+        this.bgm = game.add.audio('music_title');
+        this.bgm.play('', 0, 0.25, true);
     },
 
     update : function() {
@@ -53,6 +57,11 @@ var menuState = {
         this.hasFired = true;
 
         this.lazer.visible = true;
+
+        var lazerSound = game.add.audio('sfx_lazer');
+        lazerSound.play('', 0, 0.5, false);
+
+        this.bgm.stop();
     },
 
     goToPlayMode : function() {

@@ -17,6 +17,8 @@ class Shooter {
 
         this.bulletSpawnX = this.sprite.width / 2 * Math.cos(degToRad(this.shootDirection)) + this.sprite.position.x;
         this.bulletSpawnY = this.sprite.height / 2 * Math.sin(degToRad(this.shootDirection)) + this.sprite.position.y;
+
+        this.hitSprite = null;
     }
 
     update() {
@@ -31,5 +33,14 @@ class Shooter {
 
         console.log("current time is " + game.time.now);
         console.log("next shoot time is " + this.shootTime);
+    }
+
+    hit() {
+        if (this.hitSprite != null) {
+            this.hitSprite.visible = true;
+        }
+        else {
+            this.hitSprite = game.add.sprite(this.sprite.position.x, this.sprite.position.y, 'shield');
+        }
     }
 }

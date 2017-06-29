@@ -14,6 +14,8 @@ class Mover {
         this.moveStop = 0;
 
         this.isMoving = false;
+
+        this.explosionSprite = null;
     }
 
     update() {
@@ -48,5 +50,20 @@ class Mover {
 
     kill() {
         this.sprite.kill();
+
+        this.explosionSprite = game.add.sprite(this.sprite.position.x, this.sprite.position.y, 'explosion');
+        this.explosionSprite.scale.x = 0;
+        this.explosionSprite.scale.y = 0;
+        this.explosionSprite.anchor.x = 0.5;
+        this.explosionSprite.anchor.y = 0.5;
+        var explosionTween = game.add.tween(this.explosionSprite.scale).to({ x : 1, y : 1 }, 100, Phaser.Easing.Linear.In, true, 0);
+        explosionTween.onComplete.add(this.stopExplosion, this);
+
+        var explosion = game.add.audio('sfx_explosion');
+        explosion.play('', 0, 1.0, false);
+    }
+
+    stopExplosion() {
+        this.explosionSprite.kill();
     }
 }

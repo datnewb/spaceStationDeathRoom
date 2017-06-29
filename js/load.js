@@ -5,7 +5,6 @@ var loadState = {
         game.load.image('title_spaceman', 'assets/art/title_spaceman.png');
         game.load.image('title_lazer', 'assets/art/title_lazer.png');
         game.load.image('start', 'assets/art/start.png');
-        game.load.image('black', 'assets/art/black.png');
 
         game.load.image('background', 'assets/art/background.png');
         game.load.image('fire', 'assets/art/fire.png');
@@ -17,10 +16,9 @@ var loadState = {
         game.load.image('shooter', 'assets/art/shooter.png');
         game.load.image('shooter_bullet', 'assets/art/shooter_bullet.png');
         game.load.image('explosion', 'assets/art/explosion.png');
+        game.load.image('teleport', 'assets/art/teleport.png');
 
         game.load.image('screen_score', 'assets/art/screen_score.png');
-        game.load.image('btn_retry', 'assets/art/btn_retry.png');
-        game.load.image('btn_mainmenu', 'assets/art/btn_mainmenu.png');
 
         game.load.audio('music_title', ['assets/audio/ambient/title.mp3', 'assets/audio/ambient/title.ogg']);
         game.load.audio('music_score', ['assets/audio/ambient/scoreScreen.mp3', 'assets/audio/ambient/scoreScreen.ogg']);

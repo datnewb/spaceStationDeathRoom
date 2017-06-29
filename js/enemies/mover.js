@@ -16,6 +16,15 @@ class Mover {
         this.isMoving = false;
 
         this.explosionSprite = null;
+
+        this.teleportSprite = game.add.sprite(this.sprite.position.x, this.sprite.position.y, 'teleport');
+        this.teleportSprite.scale.x = 0;
+        this.teleportSprite.scale.y = 0;
+        this.teleportSprite.anchor.x = 0.5;
+        this.teleportSprite.anchor.y = 0.5;
+
+        var teleportTween = game.add.tween(this.teleportSprite.scale).to({ x : 1, y : 1 }, 100, Phaser.Easing.Linear.In, true, 0);
+        teleportTween.onComplete.add(this.teleportSprite.kill, this.teleportSprite);
     }
 
     update() {

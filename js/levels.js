@@ -11,14 +11,14 @@ var LEVEL = {
         this.shooterRandomStartMin = 2000;
         this.shooterRandomStartMax = 4000;
 
-        this.shooterBulletSpeed = 200;
+        this.shooterBulletSpeed = 150;
         this.shooterBulletSpeedMax = 400;
         this.shooterBulletSpeedIncrease = 45;
 
         this.moverCount = 1;
         this.currentMoverCount = 0;
         this.moverSpeedMax = 400;
-        this.moverSpeed = 200;
+        this.moverSpeed = 100;
         this.moverSpeedIncrease = 30;
 
         this.moverMoveTime = 1000;
@@ -77,12 +77,12 @@ var LEVEL = {
 };
 
 var MOVERSPAWNS = [
-    [150, 200],
-    [330, 200],
-    [150, 423],
-    [330, 423],
-    [150, 646],
-    [330, 646]
+    [130, 170],
+    [370, 170],
+    [130, 423],
+    [370, 423],
+    [130, 676],
+    [370, 676]
 ];
 
 var SHOOTERINFO = [

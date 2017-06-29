@@ -12,7 +12,7 @@ class Lazer {
 
     fire(position, rotation) {
         this.sprite = game.add.sprite(position.x, position.y, 'lazer');
-        this.sprite.anchor.x = -0.02;
+        this.sprite.anchor.x = -0.01;
         this.sprite.anchor.y = 0.35;
 
         var lazerSound = game.add.audio('sfx_lazer');

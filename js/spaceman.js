@@ -52,6 +52,8 @@ class SpaceMan {
 
     fire() {
         if (!this.isFiring) {
+            game.camera.shake(0.01, 50);
+            
             this.isFiring = true;
             this.canFire = false;
             this.fireTime = game.time.now;

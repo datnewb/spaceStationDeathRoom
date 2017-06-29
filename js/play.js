@@ -24,7 +24,13 @@ var playState = {
 
     canRetry            : false,
 
+    musicScoreScreen    : null,
+
     create : function() {
+
+        // Background
+        game.add.sprite(0, 0, 'background');
+
         // Bounds
         groupBounds = game.add.group();
         groupBounds.enableBody = true;
@@ -41,9 +47,6 @@ var playState = {
 
         var bottomBound = groupBounds.create(0, SCREEN_HEIGHT - 45, 'bounds_tb');
         bottomBound.body.immovable = true;
-
-        // Background
-        game.add.sprite(0, 0, 'background');
 
         comboText = game.add.text(100, SCREEN_CENTER.Y + 10, '4x', { fontSize: '48px', fill: '#444' });
         comboText.visible = false;
@@ -159,8 +162,6 @@ var playState = {
             }
             return;
         }
-
-        game.camera.shake(0.01, 50);
 
         if (!LEVEL.hasStarted) {
             // Start spawning enemies
@@ -288,6 +289,8 @@ var playState = {
     },
 
     killSpaceman : function() {
+        game.camera.shake(0.01, 250);
+
         spaceman.sprite.kill();
         if (spaceman.weapon.sprite != null) {
             spaceman.weapon.stopFiring();
@@ -297,6 +300,15 @@ var playState = {
         deathSfx.play('', 0, 1, false);
 
         this.showScoreScreen();
+
+        var deathSprite = game.add.sprite(spaceman.sprite.position.x, spaceman.sprite.position.y, 'teleport');
+        deathSprite.anchor.x = 0.5;
+        deathSprite.anchor.y = 0.5;
+        deathSprite.scale.x = 0;
+        deathSprite.scale.y = 0;
+        
+        var deathSpriteTween = game.add.tween(deathSprite.scale).to({ x : 1, y : 1 }, 200, Phaser.Easing.Cubic.Out, true, 0);
+        deathSpriteTween.onComplete.add(deathSprite.kill, deathSprite);
     },
 
     playShowScoreScreenAudio : function() {
@@ -312,8 +324,8 @@ var playState = {
 
         this.canRetry = false;
 
-        var scoreScreenMusic = game.add.audio('music_score');
-        scoreScreenMusic.play('', 0, 1, true);
+        musicScoreScreen = game.add.audio('music_score');
+        musicScoreScreen.play('', 0, 1, true);
         
         var scoreScreenTween = game.add.tween(scoreScreen.scale).to({ y : 1 }, 100, Phaser.Easing.Cubic.In, true, 2000);
         scoreScreenTween.onComplete.add(this.allowRetry, this);
@@ -349,6 +361,7 @@ var playState = {
 
     retry : function() {
         if (this.canRetry) {
+            musicScoreScreen.stop();
             game.state.start(APPSTATE.PLAY);
         }
     },

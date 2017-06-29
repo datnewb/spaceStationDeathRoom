@@ -19,6 +19,15 @@ class Shooter {
         this.bulletSpawnY = this.sprite.height / 2 * Math.sin(degToRad(this.shootDirection)) + this.sprite.position.y;
 
         this.hitSprite = null;
+
+        this.teleportSprite = game.add.sprite(this.sprite.position.x, this.sprite.position.y, 'teleport');
+        this.teleportSprite.scale.x = 0;
+        this.teleportSprite.scale.y = 0;
+        this.teleportSprite.anchor.x = 0.5;
+        this.teleportSprite.anchor.y = 0.5;
+
+        var teleportTween = game.add.tween(this.teleportSprite.scale).to({ x : 1, y : 1 }, 100, Phaser.Easing.Linear.In, true, 0);
+        teleportTween.onComplete.add(this.teleportSprite.kill, this.teleportSprite);
     }
 
     update() {
@@ -33,14 +42,5 @@ class Shooter {
 
         console.log("current time is " + game.time.now);
         console.log("next shoot time is " + this.shootTime);
-    }
-
-    hit() {
-        if (this.hitSprite != null) {
-            this.hitSprite.visible = true;
-        }
-        else {
-            this.hitSprite = game.add.sprite(this.sprite.position.x, this.sprite.position.y, 'shield');
-        }
     }
 }

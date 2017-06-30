@@ -4,7 +4,7 @@ class Lazer {
 
         this.moveSpeed = 200;
         this.fireStay = 1000;
-        this.fireCooldown = 2500;
+        this.fireCooldown = 1500;
         this.keepRotationWhileFiring = true;
 
         this.sprite = null;

@@ -15,6 +15,9 @@ class SpaceMan {
         this.canFire = true;
 
         this.weapon = new Lazer();
+
+        this.hasFlashed = false;
+        this.flashFrames = 0;
     }
 
     update() {
@@ -42,16 +45,28 @@ class SpaceMan {
             }
         }
 
+        if (this.hasFlashed) {
+            this.flashFrames++;
+            if (this.flashFrames >= 5) {
+                this.sprite.tint = 0xffffff;
+                this.hasFlashed = false;
+                this.flashFrames = 0;
+            }
+        }
+
         // Check if the gun can fire again
         if (!this.canFire) {
             if (game.time.now >= this.fireTime + this.weapon.fireCooldown) {
                 this.canFire = true;
+
+                this.sprite.tint = 0xaaaaff;
+                this.hasFlashed = true;
             }
         }
     }
 
     fire() {
-        if (!this.isFiring) {
+        if (!this.isFiring && this.canFire) {
             game.camera.shake(0.01, 50);
             
             this.isFiring = true;
